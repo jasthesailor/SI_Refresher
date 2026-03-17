@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Walk & Think — Leading as ONE</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: #f5f5f3;
+    color: #1a1a1a;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  .top-bar {
+    background: #00243D;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .top-bar-title { color: white; font-size: 17px; font-weight: 500; }
+  .top-bar-meta { color: rgba(255,255,255,0.6); font-size: 12px; }
+
+  .container { max-width: 560px; margin: 0 auto; padding: 20px 16px; }
+
+  .intro {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 10px;
+    border-left: 3px solid #00243D;
+  }
+
+  .sec-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #00243D;
+    margin: 24px 0 10px;
+  }
+
+  .aid-hint {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  .peer-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+
+  .peer-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .peer-num {
+    font-size: 13px;
+    font-weight: 600;
+    color: #00243D;
+    white-space: nowrap;
+  }
+
+  .peer-name-input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+    font-size: 15px;
+    color: #1a1a1a;
+    padding: 4px 0;
+    font-family: inherit;
+    -webkit-appearance: none;
+  }
+  .peer-name-input:focus { outline: none; border-bottom-color: #00243D; }
+  .peer-name-input::placeholder { color: #bbb; }
+
+  .aid-row {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+    align-items: start;
+  }
+
+  .aid-lbl { font-size: 15px; font-weight: 600; color: #00243D; padding-top: 10px; }
+  .aid-sub { font-size: 11px; color: #999; margin-top: 2px; }
+
+  textarea {
+    width: 100%;
+    min-height: 64px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 15px;
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fafafa;
+    color: #1a1a1a;
+    line-height: 1.5;
+    -webkit-appearance: none;
+  }
+  textarea:focus { outline: none; border-color: #00243D; background: white; }
+  textarea::placeholder { color: #bbb; }
+
+  .stuck {
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+    line-height: 1.5;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    color: #1a1a1a;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    margin-top: 14px;
+    display: block;
+  }
+  .btn:active { background: #f0f0f0; }
+
+  .btn-primary {
+    background: #00243D;
+    color: white;
+    border-color: #00243D;
+  }
+  .btn-primary:active { background: #00354d; }
+
+  .sent-msg {
+    font-size: 13px;
+    color: #2e7d32;
+    text-align: center;
+    margin-top: 8px;
+    display: none;
+    padding: 8px;
+    background: #f1f8f1;
+    border-radius: 6px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 28px 0;
+  }
+
+  .trap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .trap {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    background: white;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .trap:active { background: #f5f5f5; }
+  .trap.on { border-color: #00243D; background: #e8f4fb; }
+
+  .trap-box {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #ccc;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: white;
+    font-weight: 700;
+  }
+  .trap.on .trap-box { border-color: #00243D; background: #00243D; }
+
+  .trap-name { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .trap-desc { font-size: 11px; color: #888; margin-top: 2px; line-height: 1.4; }
+
+  .reframe {
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+    line-height: 1.6;
+    margin: 10px 0 18px;
+    padding: 10px 14px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+  }
+
+  .self-q { margin-bottom: 14px; }
+  .self-q-lbl {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+  }
+
+  .strength-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    margin: 8px 0;
+  }
+
+  .str-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #444;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.3;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .str-item:active { background: #f5f5f5; }
+  .str-item.on { border-color: #00243D; background: #e8f4fb; color: #00243D; font-weight: 500; }
+
+  .str-check {
+    width: 13px;
+    height: 13px;
+    border: 1.5px solid #ccc;
+    border-radius: 2px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: white;
+    font-weight: 700;
+  }
+  .str-item.on .str-check { border-color: #00243D; background: #00243D; }
+
+  .bottom-note {
+    text-align: center;
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 32px;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-title">Walk & Think</div>
+  <div class="top-bar-meta">Leading as ONE 2.0</div>
+</div>
+
+<div class="container">
+
+  <div class="intro">
+    One appreciative observation per peer — grounded in what you genuinely noticed today. Then an honest reflection on your own patterns. Walk if you can.
+  </div>
+
+  <div class="sec-label">Noticing strengths in others</div>
+  <p class="aid-hint">Use AID: a <strong>specific moment</strong> you observed (Action), <strong>what effect it had</strong> (Impact), and <strong>what you hope they keep doing</strong> (Do). This is not a compliment — it is a real observation.</p>
+
+  <!-- PEER 1 -->
+  <div class="peer-card">
+    <div class="peer-top">
+      <span class="peer-num">Peer 1</span>
+      <input class="peer-name-input" id="p1name" type="text" placeholder="Their name" autocomplete="off" />
+    </div>
+    <div class="aid-row">
+      <div><div class="aid-lbl">A</div><div class="aid-sub">Specific moment</div></div>
+      <textarea id="p1a" placeholder="When you... / I noticed that you..."></textarea>
+    </div>
+    <div class="aid-row">
+      <div><div class="aid-lbl">I</div><div class="aid-sub">Effect it had</div></div>
+      <textarea id="p1i" placeholder="The effect was... / I noticed..."></textarea>
+    </div>
+    <div class="aid-row">
+      <div><div class="aid-lbl">D</div><div class="aid-sub">Keep doing</div></div>
+      <textarea id="p1d" placeholder="I hope you keep... / I'd love to see more of..."></textarea>
+    </div>
+    <button class="btn" onclick="sendToPeer(1)">Send to Peer 1 ↗</button>
+    <div class="sent-msg" id="sent1">Email app opening — add their address and send.</div>
+  </div>
+
+  <!-- PEER 2 -->
+  <div class="peer-card">
+    <div class="peer-top">
+      <span class="peer-num">Peer 2</span>
+      <input class="peer-name-input" id="p2name" type="text" placeholder="Their name" autocomplete="off" />
+    </div>
+    <div class="aid-row">
+      <div><div class="aid-lbl">A</div><div class="aid-sub">Specific moment</div></div>
+      <textarea id="p2a" placeholder="When you... / I noticed that you..."></textarea>
+    </div>
+    <div class="aid-row">
+      <div><div class="aid-lbl">I</div><div class="aid-sub">Effect it had</div></div>
+      <textarea id="p2i" placeholder="The effect was... / I noticed..."></textarea>
+    </div>
+    <div class="aid-row">
+      <div><div class="aid-lbl">D</div><div class="aid-sub">Keep doing</div></div>
+      <textarea id="p2d" placeholder="I hope you keep... / I'd love to see more of..."></textarea>
+    </div>
+    <p class="stuck">Stuck? Think of one moment in the game where something shifted — what did that person do just before that?</p>
+    <button class="btn" onclick="sendToPeer(2)">Send to Peer 2 ↗</button>
+    <div class="sent-msg" id="sent2">Email app opening — add their address and send.</div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="sec-label">Reflect on yourself</div>
+  <p class="aid-hint" style="margin-bottom:10px;">Which conversation pattern showed up most for you today?</p>
+
+  <div class="trap-grid">
+    <div class="trap" onclick="pickTrap(this,'Expert')">
+      <div class="trap-box" id="tb-Expert"></div>
+      <div><div class="trap-name">Expert</div><div class="trap-desc">I took over with my own perspective</div></div>
+    </div>
+    <div class="trap" onclick="pickTrap(this,'Problem')">
+      <div class="trap-box" id="tb-Problem"></div>
+      <div><div class="trap-name">Problem</div><div class="trap-desc">I focused on what was wrong</div></div>
+    </div>
+    <div class="trap" onclick="pickTrap(this,'Execution')">
+      <div class="trap-box" id="tb-Execution"></div>
+      <div><div class="trap-name">Execution</div><div class="trap-desc">I pushed for solutions before listening</div></div>
+    </div>
+    <div class="trap" onclick="pickTrap(this,'Silent')">
+      <div class="trap-box" id="tb-Silent"></div>
+      <div><div class="trap-name">Silent</div><div class="trap-desc">I held back when I had something to say</div></div>
+    </div>
+  </div>
+
+  <div class="reframe">Behind every trap is a strength being overused — Expert from experience, Execution from drive, Problem from rigour, Silent from care.</div>
+
+  <div class="self-q">
+    <div class="self-q-lbl">Which of your Top 5 strengths was behind it?</div>
+    <div class="strength-grid" id="strength-grid">
+      <div class="str-item" onclick="toggleStrength(this,'Creativity')"><span class="str-check" id="sc-Creativity"></span>Creativity</div>
+      <div class="str-item" onclick="toggleStrength(this,'Curiosity')"><span class="str-check" id="sc-Curiosity"></span>Curiosity</div>
+      <div class="str-item" onclick="toggleStrength(this,'Judgement')"><span class="str-check" id="sc-Judgement"></span>Judgement</div>
+      <div class="str-item" onclick="toggleStrength(this,'Love of Learning')"><span class="str-check" id="sc-Love of Learning"></span>Love of Learning</div>
+      <div class="str-item" onclick="toggleStrength(this,'Perspective')"><span class="str-check" id="sc-Perspective"></span>Perspective</div>
+      <div class="str-item" onclick="toggleStrength(this,'Bravery')"><span class="str-check" id="sc-Bravery"></span>Bravery</div>
+      <div class="str-item" onclick="toggleStrength(this,'Perseverance')"><span class="str-check" id="sc-Perseverance"></span>Perseverance</div>
+      <div class="str-item" onclick="toggleStrength(this,'Honesty')"><span class="str-check" id="sc-Honesty"></span>Honesty</div>
+      <div class="str-item" onclick="toggleStrength(this,'Zest')"><span class="str-check" id="sc-Zest"></span>Zest</div>
+      <div class="str-item" onclick="toggleStrength(this,'Love')"><span class="str-check" id="sc-Love"></span>Love</div>
+      <div class="str-item" onclick="toggleStrength(this,'Kindness')"><span class="str-check" id="sc-Kindness"></span>Kindness</div>
+      <div class="str-item" onclick="toggleStrength(this,'Social Intelligence')"><span class="str-check" id="sc-Social Intelligence"></span>Social Intelligence</div>
+      <div class="str-item" onclick="toggleStrength(this,'Teamwork')"><span class="str-check" id="sc-Teamwork"></span>Teamwork</div>
+      <div class="str-item" onclick="toggleStrength(this,'Fairness')"><span class="str-check" id="sc-Fairness"></span>Fairness</div>
+      <div class="str-item" onclick="toggleStrength(this,'Leadership')"><span class="str-check" id="sc-Leadership"></span>Leadership</div>
+      <div class="str-item" onclick="toggleStrength(this,'Forgiveness')"><span class="str-check" id="sc-Forgiveness"></span>Forgiveness</div>
+      <div class="str-item" onclick="toggleStrength(this,'Humility')"><span class="str-check" id="sc-Humility"></span>Humility</div>
+      <div class="str-item" onclick="toggleStrength(this,'Prudence')"><span class="str-check" id="sc-Prudence"></span>Prudence</div>
+      <div class="str-item" onclick="toggleStrength(this,'Self-Regulation')"><span class="str-check" id="sc-Self-Regulation"></span>Self-Regulation</div>
+      <div class="str-item" onclick="toggleStrength(this,'Appreciation of Beauty')"><span class="str-check" id="sc-Appreciation of Beauty"></span>Appreciation of Beauty</div>
+      <div class="str-item" onclick="toggleStrength(this,'Gratitude')"><span class="str-check" id="sc-Gratitude"></span>Gratitude</div>
+      <div class="str-item" onclick="toggleStrength(this,'Hope')"><span class="str-check" id="sc-Hope"></span>Hope</div>
+      <div class="str-item" onclick="toggleStrength(this,'Humour')"><span class="str-check" id="sc-Humour"></span>Humour</div>
+      <div class="str-item" onclick="toggleStrength(this,'Spirituality')"><span class="str-check" id="sc-Spirituality"></span>Spirituality</div>
+    </div>
+    <p class="stuck" style="margin-top:8px;">Select up to 5. Not sure? <a href="https://www.viacharacter.org/character-strengths" target="_blank" style="color:#00243D;">View all 24 at VIA ↗</a></p>
+    <div style="margin-top:14px;">
+      <div class="self-q-lbl">How did this strength show up today — and what does it tell you?</div>
+      <textarea id="sq-reflect" placeholder="When I look at the strength I selected, I notice..."></textarea>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" onclick="sendSelf()">Save reflection to myself ↗</button>
+  <div class="sent-msg" id="sent-self">Email app opening — send it to yourself.</div>
+
+  <p class="bottom-note">Leading as ONE 2.0 · Superintendent Track</p>
+
+</div>
+
+<script>
+  var chosenTrap = '';
+  var chosenStrengths = [];
+
+  function pickTrap(el, name) {
+    document.querySelectorAll('.trap').forEach(function(t) { t.classList.remove('on'); });
+    document.querySelectorAll('.trap-box').forEach(function(b) { b.textContent = ''; });
+    el.classList.add('on');
+    document.getElementById('tb-' + name).textContent = '✓';
+    chosenTrap = name;
+  }
+
+  function toggleStrength(el, name) {
+    var idx = chosenStrengths.indexOf(name);
+    if (idx > -1) {
+      chosenStrengths.splice(idx, 1);
+      el.classList.remove('on');
+      document.getElementById('sc-' + name).textContent = '';
+    } else {
+      if (chosenStrengths.length >= 5) return;
+      chosenStrengths.push(name);
+      el.classList.add('on');
+      document.getElementById('sc-' + name).textContent = '✓';
+    }
+  }
+
+  function pickTrap(el, name) {
+    document.querySelectorAll('.trap').forEach(function(t) { t.classList.remove('on'); });
+    document.querySelectorAll('.trap-box').forEach(function(b) { b.textContent = ''; });
+    el.classList.add('on');
+    document.getElementById('tb-' + name).textContent = '✓';
+    chosenTrap = name;
+  }
+
+  function v(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function showSent(id) {
+    var el = document.getElementById(id);
+    if (el) {
+      el.style.display = 'block';
+      setTimeout(function() { el.style.display = 'none'; }, 4000);
+    }
+  }
+
+  function sendToPeer(n) {
+    var peerName = v('p' + n + 'name') || 'your colleague';
+    var subject = 'Feedback from today — Leading as ONE';
+    var body =
+      'Hi ' + peerName + ',\n\n' +
+      'Here is what I genuinely noticed about how you showed up today.\n\n' +
+      'ACTION — a specific moment I observed:\n' + (v('p' + n + 'a') || '—') + '\n\n' +
+      'IMPACT — the effect it had:\n' + (v('p' + n + 'i') || '—') + '\n\n' +
+      'DO — what I hope you keep doing:\n' + (v('p' + n + 'd') || '—') + '\n\n' +
+      '— Leading as ONE, ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    showSent('sent' + n);
+  }
+
+  function sendSelf() {
+    var subject = 'My reflection from today — Leading as ONE';
+    var strengthsText = chosenStrengths.length > 0 ? chosenStrengths.join(', ') : '—';
+    var body =
+      'MY REFLECTION — Leading as ONE\n\n' +
+      'Conversation pattern that showed up: ' + (chosenTrap || '—') + '\n\n' +
+      'Strength behind it: ' + strengthsText + '\n\n' +
+      'Reflection on my strengths:\n' + (v('sq-reflect') || '—') + '\n\n' +
+      '— ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    showSent('sent-self');
+  }
+</script>
+
+</body>
+</html>
